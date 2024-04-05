@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validacion de Formulario de Registro</title>
+</head>
+<body>
+    <h2>Registro</h2>
+    <form action="" method="post" id="formulario1" onsubmit="return validaForm(event)">
+        <label for="name">Nombre:</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" name="email" id="email"><br>
+        <label for="pass">Contraseña:</label><br>
+        <input type="password" name="pass" id="pass"><br><br>
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        //Se puede enviar a un archivo aparte
+        function validaForm(e) {
+            e.preventDefault();
+            var formul = document.getElementById("formulario1");
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var pass = document.getElementById("pass").value;
+            
+            var regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+            var emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+            if (name == "" || email == "" || pass == "") {
+                alert("Por favor, completa todos los campos.");
+                return false; 
+            }
+            
+            //EL campo email se valida por el tipo de input del formulario. Si es extrictamente necesario se puede usar una Expr Regular
+            //var emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegExp.test(email)) {
+                alert("Confirma que tu email sea correcto.");
+                return false; 
+            }
+
+            if (name.length < 5) {
+                alert("Tu nombre debe tener al menos 5 letras.");
+                return false;  
+            }
+
+            if (!regex.test(pass)) {
+                alert("La contraseña debe tener al menos 8 caracteres, 1 Mayúscula, 1 Número y 1 Caracter especial.");
+                return false; 
+            }
+            formul.reset();
+            return true;
+      } 
+ 
+    </script>
+</body>
+</html>

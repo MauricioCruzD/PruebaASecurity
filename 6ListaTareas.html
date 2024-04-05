@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        .complete {
+          text-decoration-line: line-through;
+        }
+      </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Tareas</h2>
+        <form action="" id="form" onsubmit="return agregarTarea(event)">
+            <div>
+                <input type="text" name="tarea" id="tarea" placeholder="Ingresa tu Tarea" autocomplete="off"><br><br>
+            </div>
+            <div>
+                <button  type="submit">Agregar</button>
+            </div>
+            
+        </form>
+    </div>
+    <br>
+        <div class="container" id="mensajes"></div>
+    <br>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nombre        </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tablaTareas">
+            </tbody>
+        </table>
+    </div>
+   
+
+    <script>
+        //Se puede enviar a un archivo aparte
+        let tareas=[];
+        function agregarTarea(e) {
+            e.preventDefault();
+            var formul = document.getElementById("form");
+            var tarea = document.getElementById("tarea").value;
+            
+            if (tarea == "" || tarea.length <2 ) {
+                alert("Por favor, completa el nombre de la tarea.");
+                return false; 
+            }
+            else {
+                tareas.push({tarea:tarea,complete:false});
+                formul.reset();  
+            }
+            console.log(tareas);
+            mostrarTareas(tareas);
+            return true;
+        }
+        function mostrarTareas(){
+            var tablaTareas = document.getElementById("tablaTareas");
+            tablaTareas.innerHTML ="";
+
+            tareas.forEach((element,index) => {
+                var row = tablaTareas.insertRow();
+                
+                var ind = row.insertCell(0);
+                
+                var valor = row.insertCell(1);
+                valor.textContent = element.tarea;
+                
+                if(element.complete){
+                    row.classList.add("complete");
+                }
+                
+                valor.addEventListener("click", function() {
+                    if  (row.classList.contains("complete")){
+                        row.classList.remove("complete");
+                        tareas.splice(index, 1,{tarea:element.tarea,complete:false});
+                    }else{
+                        row.classList.add("complete");
+                        tareas.splice(index, 1,{tarea:element.tarea,complete:true});
+                    }
+
+                });
+                
+                                
+                var btn = row.insertCell(2);
+                var boton = document.createElement("button");
+                
+                boton.textContent = "Borrar";
+
+                boton.addEventListener("click", function() {
+                    tareas.splice(index, 1);
+                    mostrarTareas(tareas);
+                 });
+                btn.appendChild(boton);               
+            });
+            
+            
+        } 
+        mostrarTareas(tareas);
+    </script>
+
+</body>
+</html>

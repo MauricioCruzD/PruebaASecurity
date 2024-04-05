@@ -1,0 +1,95 @@
+¿Qué es la inyección SQL y cómo se puede prevenir en PHP?
+es una técnica de ciberataque donde se inserta código malicioso, intentando cambiar las consultas a una base de datos
+para acceder a información confidencial o modificar los datos.
+
+Se puede prevenir al usar consultas donde el codigo SQL y los datos esten separados en lugar de concatenar variables en la consulta SQL.
+Escapar cualquier dato que ingrese el usuario antes de usarlo en una consulta SQL. Es decir evitar que se interpreten como código SQL, por ejemplo para que las ' comillas sencillas no sean tratadas como finales de cadena si no como el caracter especifico.
+Ademas se puede validar y limpiar los datos de entrada que implica verificar que los campos obligatorios no estén vacíos, comprobar que los valores numéricos estén dentro de un rango definido, eliminar etiquetas HTML o scripts incrustados en los campos de texto, normalizar los formatos de fecha, hora, correo electrónico, etc.
+Se puede usar una biblioteca o framework que proporcione una capa de abstracción, como PDO o mysqli, o usar una clase o clases Repositorio que se encarguen de interactuar con la base de datos, aplicando toda la logica necesaria para evitar la inyección.
+
+******************************************************
+
+Explique la diferencia entre == y === en PHP.
+El operador == me permite comparar valores de 2 variables sin tener en cuenta el tipo de las mismas, es mas antes de hacer la comparacion se hace una convercion de tipos.
+Mientras el operador === ademas de comparar los valores compara directamente los tipos de variable.
+
+******************************************************
+
+¿Qué es Composer y para qué se utiliza en el desarrollo de PHP?
+Composer es una herramienta de gestión de dependencias que permite declarar y gestionar las bibliotecas o paquetes de código que una aplicación PHP necesita, así mismo permite generar un archivo de autoloading que simplifica la carga automática de las clases, funciones, etc. cuando se necesitan.
+Tambien permite acceder a un gran repositorio de paquetes llamado Packagist que facilita la instalación y/o actualización de dependencias.
+
+******************************************************
+
+¿Qué es el Event Loop en JavaScript y cómo afecta al rendimiento de una aplicación web?
+El Event Loop es el mecanismo que monitorea y coordina la ejecución de tareas síncronas y asíncronas en JavaScript, cuando se completan las tareas asíncronas, el Event Loop las coloca en una Cola de Eventos para que se procesen posteriormente lo que permite manejar de manera eficiente estas tareas, así mantiene una ejecución fluida y evita bloqueos.
+
+******************************************************
+
+Explique qué son las promesas y cómo se utilizan en JavaScript.
+Las promesas son Objetos que permiten manejar operaciones asíncronas de manera más estructurada y legible, ademas representa el eventual resultado o falla de dicha operación.
+Estas permiten encadenar múltiples operaciones asíncronas usando .then() y .catch().
+Basicamente se crea un nuevo objeto de tipo Promesa, con el constructor new Promise() que toma una funcion como argumento que recibe 2 funciones callbacks, resolve y reject.
+dentro  de la funcion de la promesa se realiza una operacion asincrona, y cuando esta se complete con exito se llama a resolve pasandole el resultado. en un ejemplo básico podemos definir la promesa.
+
+const myPro = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const data = "Resultado";
+    resolve(data);
+  }, 2000);
+});
+consumir la promesa
+myPro
+  .then((result) => {
+    console.log("Promesa resuelta:", result);
+  })
+  .catch((error) => {
+    console.error("Promesa rechazada:", error);
+  })
+  .finally(() => {
+    console.log("Promesa finalizada");
+  }); 
+el metodo finally se ejecuta independientemente si la promesa es resulta o rechazada.
+
+******************************************************
+
+¿Qué es el ámbito léxico y cómo afecta al alcance de las variables en JavaScript?
+El ámbito léxico se refiere precisamente al scope o alcance de las variables al ser definidas, lo que impacta en la accesibilidad y visibilidad de las mismas en todo el código, lo que implica que algunas variables al ser definidas, dependiendo de este scope podrán o no ser accededidas desde diferentes partes del codigo.
+Podemos hablar de scope global, local y de bloque. El scope global es todo el script, mientras que el scope local está limitado a una función y el de bloque que esta definido por {} solo a esa parte del bloqe, ademas el scope afecta tambien a las funciones, clases, modulos.
+
+******************************************************
+
+Describa brevemente el patrón de diseño MVC y sus componentes.
+En este patrón de arquitectura se separan los componentes de la aplicacion en 3 grupos o capas, el modelo, la vista y el controlador, ademas decribe como se relacionan estos componentes para mantener una estructura organizada y con minimo acoplamiento entre dichas capas, y describe cual es la responsabilidad de cada uno de los componentes.
+ El Modelo contiene principalmente las entidades que representan el dominio, la lógica de negocio, y los mecanismos de persistencia.
+ En la Vista encontramos los componentes responsables de generar la interfaz con el exterior, el UI de nuestra aplicación.
+ En el Controlador se encuentran los componentes capaces de procesar las interacciones del usuario, consultar o actualizar el Modelo, y seleccionar las Vistas apropiadas en cada momento.
+
+******************************************************
+
+¿Cuál es la responsabilidad del modelo en el patrón MVC?
+Encapsular la lógica de negocio y los datos de la aplicación, proporcionando métodos para acceder, manipular y validar esos datos, así entonces define las estructuras de datos y las reglas de negocio que rigen esos datos, interactuar con la fuente de datos,proporciona los metodos para el CRUD, validacion de datos, etc.
+
+******************************************************
+
+¿Cómo se relacionan el controlador y la vista en MVC? Explique con un ejemplo.
+como el controlador es el intermediario entre la vista y el modelo, este recibe y procesa las solicitudes del usuario provenientes de la vista, realiza las operaciones necesarias en el modelo para obtener los datos requeridos y selecciona la vista adecuada para presentar los datos al usuario.
+La vista entonces recibe los datos del controlador y los muestra de una manera apropiada, captura las interacciones del usuario y las envía de vuelta al controlador.
+
+ejemplo: Tenemos una aplicación web que permite a los usuarios administrar sus listas de tareas.
+Usuario:
+- Accede a la página principal de la aplicación (la vista).
+- Crea una nueva tarea.
+- Marca una tarea como completada.
+- Filtra las tareas por estado (pendientes, completadas).
+
+Vista: La vista muestra la interfaz de usuario, con campos para crear nuevas tareas, una lista de tareas y controles para filtrar las tareas.
+Controlador:
+Cuando el usuario crea una nueva tarea, la vista envía la solicitud al controlador.
+El controlador recibe la solicitud, le pide al modelo que cree la nueva tarea y, una vez hecho, le indica a la vista que actualice la lista de tareas.
+Cuando el usuario marca una tarea como completada, la vista envía la solicitud al controlador.
+El controlador recibe la solicitud, le pide al modelo que actualice el estado de la tarea y, una vez hecho, le indica a la vista que actualice la lista de tareas.
+Cuando el usuario filtra las tareas, la vista envía la solicitud de filtro al controlador.
+El controlador recibe la solicitud de filtro, le pide al modelo que recupere las tareas según el filtro seleccionado, y luego le indica a la vista que actualice la lista de tareas.
+
+******************************************************
